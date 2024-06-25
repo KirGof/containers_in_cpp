@@ -171,18 +171,35 @@ template <typename T> typename list<T>::size_type list<T>::size() {
 
 template <typename T>
 typename list<T>::size_type list<T>::max_size() const noexcept {
-  return std::numeric_limits<size_type>::max() / sizeof(Node);
+  return (std::numeric_limits<size_type>::max() - sizeof(Node *) * 2) /
+         sizeof(Node);
 }
 
 template <typename T>
 typename list<T>::iterator list<T>::insert(iterator pos,
                                            const_reference value) {
-  // Node *new_node = new Node(value);
-  // if (pos->current_node_ == nullptr) {
-  // }
-  for (auto n : value) {
-    std::cout << n << ", ";
+  Node *new_node = new Node(value);
+  if (pos.current_node_ == nullptr) {
+    if (bot_ == nullptr) {
+      top_ = new_node;
+      bot_ = new_node;
+    } else {
+      new_node->prev_ = bot_;
+      bot_->next_ = new_node;
+      bot_ = new_node;
+    }
+  } else {
+    new_node->prev_ = pos.current_node_->prev_;
+    new_node->next_ = pos.current_node_;
+    if (pos.current_node_->prev_ != nullptr) {
+      pos.current_node_->prev_->next_ = new_node;
+    } else {
+      top_ = new_node;
+    }
+    pos.current_node_->prev_ = new_node;
   }
+  ++size_;
+  return iterator(new_node);
 }
 
 } // namespace s21

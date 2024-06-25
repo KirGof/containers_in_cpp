@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include "header.h"
+#include <cstdio>
 
 namespace s21 {
 
@@ -88,6 +89,7 @@ public:
 template <typename value_type> class iter_for_list {
 
   using from_list = list<value_type>;
+  friend class list<value_type>;
 
 private:
   typename from_list::Node *current_node_ = nullptr;
@@ -111,8 +113,25 @@ public:
     return *this;
   }
 
-  iter_for_list &operator--() noexcept {
+  iter_for_list &operator++(int) noexcept {
     if (current_node_ != nullptr) {
+      current_node_ = current_node_->next_;
+    }
+    return *this;
+  }
+
+  iter_for_list &operator--() noexcept {
+    if (current_node_ == nullptr) {
+    } else {
+      current_node_ = current_node_->prev_;
+    }
+    return *this;
+  }
+
+  iter_for_list &operator--(int) noexcept {
+
+    if (current_node_ == nullptr) {
+    } else {
       current_node_ = current_node_->prev_;
     }
     return *this;
