@@ -2,11 +2,10 @@
 #define LIST_H
 
 #include "header.h"
-#include <cstdio>
 
 namespace s21 {
 
-template <typename value_type> class iter_for_list;
+template <typename T> class List_iter;
 
 template <typename T> class list {
 public:
@@ -14,15 +13,12 @@ public:
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
-  // using iterator = T *;
-  using iterator = iter_for_list<value_type>;
+  using iterator = List_iter<value_type>;
   using const_iterator = const T *;
   using size_type = std::size_t;
 
-  friend class iter_for_list<value_type>;
-
 private:
-  // public:
+  friend class List_iter<value_type>;
   // *List struct*
   struct Node {
     Node *next_ = nullptr;
@@ -86,68 +82,25 @@ public:
   void sort();         // sorts the elements                |
 };
 
-template <typename value_type> class iter_for_list {
-
-  using from_list = list<value_type>;
-  friend class list<value_type>;
+template <typename T> class List_iter {
+  friend class list<T>;
 
 private:
-  typename from_list::Node *current_node_ = nullptr;
+  typename list<T>::Node *current_node_ = nullptr;
 
 public:
-  iter_for_list();
-  iter_for_list(typename from_list::Node *node) : current_node_(node){};
-
-  typename from_list::reference operator*() const {
-    if (current_node_ == nullptr) {
-      throw std::invalid_argument(
-          "Class iter_for_list, method operator*: current_node == nullptr");
-    }
-    return current_node_->val_;
-  }
-
-  iter_for_list &operator++() noexcept {
-    if (current_node_ != nullptr) {
-      current_node_ = current_node_->next_;
-    }
-    return *this;
-  }
-
-  iter_for_list &operator++(int) noexcept {
-    if (current_node_ != nullptr) {
-      current_node_ = current_node_->next_;
-    }
-    return *this;
-  }
-
-  iter_for_list &operator--() noexcept {
-    if (current_node_ == nullptr) {
-    } else {
-      current_node_ = current_node_->prev_;
-    }
-    return *this;
-  }
-
-  iter_for_list &operator--(int) noexcept {
-
-    if (current_node_ == nullptr) {
-    } else {
-      current_node_ = current_node_->prev_;
-    }
-    return *this;
-  }
-
-  bool operator!=(const iter_for_list &other) const noexcept {
-    return current_node_ != other.current_node_;
-  }
-
-  bool operator==(const iter_for_list &other) const noexcept {
-    return current_node_ == other.current_node_;
-  }
+  List_iter();
+  List_iter(typename list<T>::Node *node);
+  typename list<T>::reference operator*() const;
+  typename list<T>::iterator &operator++() noexcept;
+  typename list<T>::iterator &operator--() noexcept;
+  bool operator!=(const List_iter &other) const noexcept;
+  bool operator==(const List_iter &other) const noexcept;
 };
 
 } // namespace s21
 
+#include "./tpp/s21_iter_for_list.cpp"
 #include "./tpp/s21_list.cpp"
 
 #endif // ! LIST_H

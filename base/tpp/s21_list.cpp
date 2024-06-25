@@ -148,11 +148,11 @@ typename list<T>::const_reference list<T>::back() const noexcept {
 }
 
 template <typename T> typename list<T>::iterator list<T>::begin() noexcept {
-  return iterator(this->top_);
+  return iterator(top_);
 }
 
 template <typename T> typename list<T>::iterator list<T>::end() noexcept {
-  return iterator(this->bot_->next_);
+  return iterator(bot_->next_);
 }
 
 template <typename T>
@@ -200,6 +200,26 @@ typename list<T>::iterator list<T>::insert(iterator pos,
   }
   ++size_;
   return iterator(new_node);
+}
+
+template <typename T> void list<T>::erase(iterator pos) {
+  if (pos.current_node_ == nullptr) {
+    throw std::invalid_argument("Method erase: erase nullptr");
+  }
+  Node *buff = pos.current_node_;
+  if (buff == top_) {
+    pop_front();
+
+  } else {
+    buff->prev_->next_ = buff->next_;
+  }
+
+  if (buff == bot_) {
+    pop_back();
+  } else {
+    buff->next_->prev_ = buff->prev_;
+  }
+  delete buff;
 }
 
 } // namespace s21
