@@ -26,6 +26,7 @@ private:
     value_type val_ = 0;
     Node(const value_type &value) : val_(value){};
   };
+
   Node *top_;
   Node *bot_;
   size_type size_;
@@ -93,9 +94,12 @@ public:
   List_iter(typename list<T>::Node *node);
   typename list<T>::reference operator*() const;
   typename list<T>::iterator &operator++() noexcept;
+  typename list<T>::iterator operator+(const int x) noexcept;
   typename list<T>::iterator &operator--() noexcept;
   bool operator!=(const List_iter &other) const noexcept;
   bool operator==(const List_iter &other) const noexcept;
+  bool operator>(const List_iter &other) const noexcept;
+  void swap(typename list<T>::iterator &other);
 };
 
 } // namespace s21

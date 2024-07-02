@@ -45,7 +45,6 @@ template <typename T> list<T>::list(list &&l) {
 template <typename T> list<T>::~list() {
   while (size_ > 0) {
     pop_front();
-    printf("DESTROY!!!\n");
   }
 }
 
@@ -111,10 +110,10 @@ template <typename T> list<T> list<T>::operator=(list &&l) {
 }
 
 template <typename T> void list<T>::swap(list &other) {
-  if (this != other) {
+  if (this != &other) {
     this->clear();
     std::swap(top_, other.top_);
-    std::swap(bot_, other.bot);
+    std::swap(bot_, other.bot_);
     std::swap(size_, other.size_);
   }
 }
@@ -220,6 +219,26 @@ template <typename T> void list<T>::erase(iterator pos) {
     buff->next_->prev_ = buff->prev_;
   }
   delete buff;
+}
+
+template <typename T> void list<T>::sort() {
+  iterator iter = begin();
+  for (int i = 0; i < size_; i++) {
+    for (; iter != end(); ++iter) {
+      iterator comp = iter + 1;
+      if (comp != nullptr && iter > comp) {
+        iter.swap(comp);
+      }
+    }
+    iter = begin();
+  }
+}
+
+template <typename T> void list<T>::merge(list &other) {
+  if (empty()) {
+    swap(other);
+  } else {
+  }
 }
 
 } // namespace s21

@@ -1,18 +1,23 @@
 #include "s21_containers.h"
-#include "s21_list.h"
 
 int main() {
-  //
-  s21::list<int> l = {7, 3, 5, 1};
-  auto x = l.begin();
-  ++x;
+
+  s21::list<int> l;
+  s21::list<int> m = {1, 2, 3};
+
   // std::cout << "l = { ";
   // for (int n : l) {
   //   std::cout << n << ", ";
   // }
   // std::cout << "};\n";
   //
-  l.erase(x);
+  // std::cout << "m = { ";
+  // for (int n : m) {
+  //   std::cout << n << ", ";
+  // }
+  // std::cout << "};\n";
+
+  l.merge(m);
   std::cout << "l = { ";
   for (int n : l) {
     std::cout << n << ", ";
