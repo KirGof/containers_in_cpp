@@ -1,5 +1,4 @@
 #include "../s21_list.h"
-#include <cstdio>
 
 namespace s21 {
 

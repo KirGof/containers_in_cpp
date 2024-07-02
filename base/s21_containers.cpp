@@ -2,20 +2,8 @@
 
 int main() {
 
-  s21::list<int> l;
+  s21::list<int> l = {1, 2, 3, 4, 5, 6};
   s21::list<int> m = {1, 2, 3};
-
-  // std::cout << "l = { ";
-  // for (int n : l) {
-  //   std::cout << n << ", ";
-  // }
-  // std::cout << "};\n";
-  //
-  // std::cout << "m = { ";
-  // for (int n : m) {
-  //   std::cout << n << ", ";
-  // }
-  // std::cout << "};\n";
 
   l.merge(m);
   std::cout << "l = { ";
@@ -24,13 +12,7 @@ int main() {
   }
   std::cout << "};\n";
 
-  // for (int i = 0; i < l.size(); i++) {
-  //   if (x == nullptr) {
-  //     printf("NULL\n");
-  //   } else {
-  //     printf("%d\n", *x);
-  //   }
-  //   ++x;
-  // }
-  // return 0;
+  // s21::Vector<int> x = {1, 2, 3};
+  // x.show();
+  return 0;
 }

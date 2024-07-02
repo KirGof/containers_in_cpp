@@ -1,4 +1,5 @@
 #include "../s21_list.h"
+#include <cstdio>
 
 namespace s21 {
 
@@ -205,20 +206,17 @@ template <typename T> void list<T>::erase(iterator pos) {
   if (pos.current_node_ == nullptr) {
     throw std::invalid_argument("Method erase: erase nullptr");
   }
-  Node *buff = pos.current_node_;
-  if (buff == top_) {
+  if (pos.current_node_ == top_) {
     pop_front();
-
-  } else {
-    buff->prev_->next_ = buff->next_;
-  }
-
-  if (buff == bot_) {
+  } else if (pos.current_node_ == bot_) {
     pop_back();
   } else {
+    Node *buff = pos.current_node_;
+
+    buff->prev_->next_ = buff->next_;
     buff->next_->prev_ = buff->prev_;
+    delete buff;
   }
-  delete buff;
 }
 
 template <typename T> void list<T>::sort() {
@@ -235,9 +233,25 @@ template <typename T> void list<T>::sort() {
 }
 
 template <typename T> void list<T>::merge(list &other) {
-  if (empty()) {
-    swap(other);
-  } else {
+  if (this != &other) {
+    if (empty()) {
+      swap(other);
+    } else {
+      iterator it_1 = begin();
+      iterator it_2 = other.begin();
+      while (it_1 != nullptr && it_2 != nullptr) {
+        if (*it_1 > *it_2) {
+          insert(it_1, *it_2);
+          ++it_2;
+        } else if (*it_1 == *it_2) {
+          insert(it_1 + 1, *it_2);
+          ++it_2;
+        } else {
+          ++it_1;
+        }
+      }
+      other.clear();
+    }
   }
 }
 
